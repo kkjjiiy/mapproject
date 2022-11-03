@@ -15,6 +15,7 @@ def index(request):
     m = m._repr_html_()
     context = {
         'm' : m,
+        #asablu
     }
     return render(request, 'index.html', context)
 
