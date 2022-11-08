@@ -18,7 +18,7 @@ def index(request):
     # folium.Marker([25.0139376,121.5421717]).add_to(m)
     # folium.Marker([25.0134056,121.5409975]).add_to(m)
     for i in range(0,num):
-        folium.Marker([data[i]['Longitude'], data[i]['Latitude']],tooltip="%f, %f" % (data[i]['Longitude'],data[i]['Latitude'])).add_to(m)
+        folium.Marker([data[i]['Longitude'], data[i]['Latitude']],tooltip="%s: %f, %f" % (data[i]['CarName'],data[i]['Longitude'],data[i]['Latitude'])).add_to(m)
     # get html representation of map object
     m = m._repr_html_()
     context = {
