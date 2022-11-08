@@ -13,12 +13,12 @@ def index(request):
     num = Car.objects.count()
     # create map object
     m = folium.Map(location=[25.0139376,121.5421717], zoom_start = 20)
-    # folium.Marker([25.0139376,121.5421717]).add_to(m)
-    # folium.Marker([25.0134056,121.5409975]).add_to(m)
     # folium.Marker([25.014614, 121.542910]).add_to(m) #C1
     # folium.Marker([25.012674, 121.542057]).add_to(m) #Car_2
+    # folium.Marker([25.0139376,121.5421717]).add_to(m)
+    # folium.Marker([25.0134056,121.5409975]).add_to(m)
     for i in range(0,num):
-        folium.Marker([data[i]['Longitude'], data[i]['Latitude']]).add_to(m)
+        folium.Marker([data[i]['Longitude'], data[i]['Latitude']],tooltip="%f, %f" % (data[i]['Longitude'],data[i]['Latitude'])).add_to(m)
     # get html representation of map object
     m = m._repr_html_()
     context = {
