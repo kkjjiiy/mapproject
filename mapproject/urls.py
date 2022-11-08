@@ -16,9 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from map import views as map_views
+from map.views import post_create_view
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('', map_views.index, name='index'),
-    path('create/',map_views.post_create_view)#car id
+    path('create/',map_views.post_create_view),#car id
+    path('post/', map_views.test_json_response_view)
 ]

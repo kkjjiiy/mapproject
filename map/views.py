@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.core.handlers.wsgi import WSGIRequest
 from django.http import HttpRequest
 import folium
 
@@ -19,8 +21,10 @@ def index(request):
     }
     return render(request, 'index.html', context)
 
-from .form import PostForm
+from .forms import PostForm
 from .models import Car
+import json
+
 def post_create_view(request):
 	form = PostForm(request.POST or None)
 	if form.is_valid():
@@ -29,4 +33,26 @@ def post_create_view(request):
 	context = {
 		'form': form
 	}
-	return render(request, '/post_create.html', context)
+	return render(request, 'post_create.html', context)
+
+@csrf_exempt
+def test_json_response_view(request: WSGIRequest):
+	print('-----------------------------------')
+	if request.method == 'GET':
+		print("get GET request: ", request)
+		return JsonResponse({'first': 'CarName','second': 'TimeStamp', 'third': 'Latitude', 'forth':'Longitude','fifth': 'CarSpeed','sixth': 'Heading'})
+	elif request.method == 'POST':
+		# get json data
+		data = json.loads(request.body)
+		print("get POST request data: ", data)
+
+		# save to db
+		Car.objects.create(CarName=data['CarName'],TimeStamp=data['TimeStamp'], Latitude=data['Latitude'], Longitude=data['Longitude'],CarSpeed=data['CarSpeed'],Heading=data['Heading'])
+		# check posts in db
+		print('all posts in db: ', Car.objects.all())
+
+		# send response to client
+		return JsonResponse({'status': 'Car was added successfully.'})
+	else:
+		print("get unknown request: ", request)
+		return JsonResponse({'status': 'Failed, try again.'})

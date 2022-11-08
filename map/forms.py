@@ -7,5 +7,8 @@ class PostForm(forms.ModelForm):
 		fields= {
 			'TimeStamp',
 			'Latitude',
-            'Longitude'
+            'Longitude',
+			'CarName',
+			'CarSpeed',
+			'Heading'
 		}
