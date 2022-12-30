@@ -46,7 +46,8 @@ def test_json_response_view(request: WSGIRequest):
 	print('-----------------------------------')
 	if request.method == 'GET':
 		print("get GET request: ", request)
-		return JsonResponse({'first': 'CarName','second': 'TimeStamp', 'third': 'Latitude', 'forth':'Longitude','fifth': 'CarSpeed','sixth': 'Heading'})
+		data = list(Car.objects.all().values())
+		return JsonResponse(data,safe=False)
 	elif request.method == 'POST':
 		# get json data
 		data = json.loads(request.body)

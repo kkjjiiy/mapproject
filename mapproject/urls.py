@@ -22,5 +22,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path('', map_views.index, name='index'),
     path('create/',map_views.post_create_view),#car id
-    path('post/', map_views.test_json_response_view)
+    path('post/', map_views.test_json_response_view),
+    path('get/', map_views.test_json_response_view),
 ]
