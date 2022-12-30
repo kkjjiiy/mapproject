@@ -4,12 +4,13 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import HttpRequest
 import folium
+from .models import Car
 
 # Create your views here.
 def index(request):
     # lon = Car.objects.filter('Longitude')
     # la = Car.objects.filter('Latitude')
-    data = Car.objects.all().values()
+    data = Car.objects.all()
     num = Car.objects.count()
     # create map object
     m = folium.Map(location=[25.0139376,121.5421717], zoom_start = 20)
@@ -18,19 +19,20 @@ def index(request):
     # folium.Marker([25.0139376,121.5421717]).add_to(m)
     # folium.Marker([25.0134056,121.5409975]).add_to(m)
     for i in range(0,num):
-        folium.Marker([data[i]['Longitude'], data[i]['Latitude']],tooltip="%s: %f, %f" % (data[i]['CarName'],data[i]['Longitude'],data[i]['Latitude'])).add_to(m)
-    # get html representation of map object
+        folium.Marker([data.values()[i]['Longitude'], data.values()[i]['Latitude']],tooltip="%s: %f, %f" % (data.values()[i]['CarName'],data.values()[i]['Longitude'],data.values()[i]['Latitude'])).add_to(m)
+    data.delete()
+	# get html representation of map object
     m = m._repr_html_()
     context = {
         'm' : m,
         #asablu
     }
     return render(request, 'index.html', context)
+	
 
 from .forms import PostForm
 from .models import Car
 import json
-
 def post_create_view(request):
 	form = PostForm(request.POST or None)
 	if form.is_valid():
