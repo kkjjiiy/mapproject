@@ -27,7 +27,8 @@ def index(request):
         'm' : m,
         #asablu
     }
-    return render(request, 'index.html', context)
+    return render(request, 'index.html',context)
+	# return render(request, 'index.html', context)
 	
 
 from .forms import PostForm
